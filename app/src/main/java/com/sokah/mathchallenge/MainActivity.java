@@ -105,11 +105,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void ReiniciarJuego(){
 
         preguntas.clear();
-        preguntas.add(new Pregunta("5x4","20"));
-        preguntas.add(new Pregunta("10/2","5"));
-        preguntas.add(new Pregunta("10x5","50"));
-        preguntas.add(new Pregunta("40/2","20"));
-        preguntas.add(new Pregunta("40/5","8"));
+        preguntas.add(new Pregunta("5x4",  "20"));
+        preguntas.add(new Pregunta("10/2", "5"));
+        preguntas.add(new Pregunta("10x5", "50"));
+        preguntas.add(new Pregunta("40/2", "20"));
+        preguntas.add(new Pregunta("40/5", "8"));
 
         puntaje=0;
         puntajeText.setText(""+puntaje);
@@ -128,30 +128,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.enviar:
 
-                if(inputRespuesta.getText().toString().isEmpty()) {
+                if(jugando) {
+                    if (inputRespuesta.getText().toString().isEmpty()) {
 
 
-                    Toast.makeText(this,"Debes poner respuesta",Toast.LENGTH_LONG).show();
-                    Log.e("funciono", "onClick: " );
-                }
-
-               else if(inputRespuesta.getText().toString().equals(preguntaEscogida.respuesta)){
+                        Toast.makeText(this, "Debes poner respuesta", Toast.LENGTH_LONG).show();
+                        Log.e("funciono", "onClick: ");
+                    } else if (inputRespuesta.getText().toString().equals(preguntaEscogida.respuesta)) {
 
 
-                    preguntas.remove(resultado);
-                    SeleccionarPregunta();
-                    inputRespuesta.setText("");
-                    puntaje+=15;
-                    puntajeText.setText("Puntaje :"+ puntaje);
+                        preguntas.remove(resultado);
+                        SeleccionarPregunta();
+                        inputRespuesta.setText("");
+                        puntaje += 15;
+                        puntajeText.setText("Puntaje :" + puntaje);
 
 
-                }
+                    } else {
 
-                else{
-
-                    Toast.makeText(this,"Respuesta Incorrecta",Toast.LENGTH_LONG).show();
-                    puntaje-=15;
-                    puntajeText.setText("Puntaje :"+ puntaje);
+                        Toast.makeText(this, "Respuesta Incorrecta", Toast.LENGTH_LONG).show();
+                        puntaje -= 15;
+                        puntajeText.setText("Puntaje :" + puntaje);
+                    }
                 }
 
                 break;
