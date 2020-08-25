@@ -39,52 +39,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intentar= findViewById(R.id.intentar);
         contadorText= findViewById(R.id.timmer);
         intentar.setVisibility(View.GONE);
-       GenerarPreguntas();
-        //Log.e("a", preguntas.get(0).pregunta+" " +preguntas.get(0).respuesta );
+        GenerarPreguntas();
         SeleccionarPregunta();
         enviar.setOnClickListener(this);
         intentar.setOnClickListener(this);
-        contadorText.setText("30");
-
-
-
-        new Thread(
-
-                ()->{
-
-                    while (jugando){
-
-                        contador--;
-                        runOnUiThread(() -> {
-
-
-                            contadorText.setText(""+contador);
-                            if(contador<=0){
-
-                                intentar.setVisibility(View.VISIBLE);
-                                jugando=false;
-
-                                //ReiniciarJuego();
-                            }
-
-                        });
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-
-
-                    }
-
-                }
-
-        ).start();
-
-
-
-
+        Contador();
 
 
     }
@@ -92,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
    void SeleccionarPregunta(){
 
-        Random random = new Random();
+       Random random = new Random();
        resultado = random.nextInt(preguntas.size());
        preguntaEscogida=preguntas.get(resultado);
        textPregunta.setText(preguntas.get(resultado).pregunta);
@@ -101,14 +60,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void ReiniciarJuego(){
 
         preguntas.clear();
+        jugando=true;
         GenerarPreguntas();
         puntaje=0;
         puntajeText.setText(""+puntaje);
         intentar.setVisibility(View.GONE);
-        jugando=true;
         contador=30;
         contadorText.setText(""+contador);
-
+        textPregunta.setText("");
+        inputRespuesta.setText("");
+        Contador();
+        SeleccionarPregunta();
 
 
     }
@@ -138,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-
-
         }
 
     }
@@ -156,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         Toast.makeText(this, "Debes poner respuesta", Toast.LENGTH_LONG).show();
                         Log.e("funciono", "onClick: ");
-                    } else if (inputRespuesta.getText().toString().equals(preguntaEscogida.respuesta)) {
+                    }
+                    else if (inputRespuesta.getText().toString().equals(preguntaEscogida.respuesta)) {
 
 
                         preguntas.remove(resultado);
@@ -183,5 +144,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
+    }
+
+    public void Contador(){
+
+        new Thread  (
+
+                ()->{
+
+                    while (jugando){
+
+                        contador--;
+                        runOnUiThread(() -> {
+
+
+                            contadorText.setText(""+contador);
+
+                            if(contador<=0){
+
+                                intentar.setVisibility(View.VISIBLE);
+                                jugando=false;
+
+                                //ReiniciarJuego();
+                            }
+
+                        });
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+
+                }
+
+        ).start();
+
+
     }
 }
