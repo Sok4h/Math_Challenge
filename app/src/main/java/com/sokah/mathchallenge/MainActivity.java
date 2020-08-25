@@ -39,12 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intentar= findViewById(R.id.intentar);
         contadorText= findViewById(R.id.timmer);
         intentar.setVisibility(View.GONE);
-
-        preguntas.add(new Pregunta("5x4","20"));
-        preguntas.add(new Pregunta("10/2","5"));
-        preguntas.add(new Pregunta("10x5","50"));
-        preguntas.add(new Pregunta("40/2","20"));
-        preguntas.add(new Pregunta("40/5","8"));
+       GenerarPreguntas();
+        //Log.e("a", preguntas.get(0).pregunta+" " +preguntas.get(0).respuesta );
         SeleccionarPregunta();
         enviar.setOnClickListener(this);
         intentar.setOnClickListener(this);
@@ -94,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    void SeleccionarPregunta(){
+   void SeleccionarPregunta(){
 
         Random random = new Random();
        resultado = random.nextInt(preguntas.size());
@@ -105,12 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void ReiniciarJuego(){
 
         preguntas.clear();
-        preguntas.add(new Pregunta("5x4",  "20"));
-        preguntas.add(new Pregunta("10/2", "5"));
-        preguntas.add(new Pregunta("10x5", "50"));
-        preguntas.add(new Pregunta("40/2", "20"));
-        preguntas.add(new Pregunta("40/5", "8"));
-
+        GenerarPreguntas();
         puntaje=0;
         puntajeText.setText(""+puntaje);
         intentar.setVisibility(View.GONE);
@@ -119,6 +110,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         contadorText.setText(""+contador);
 
 
+
+    }
+
+    void GenerarPreguntas(){
+
+        for(int i= 0;i<30;i++){
+         Random random = new Random();
+        int numeroUno= random.nextInt((10-1)+1)+1;
+        int numeroDos= random.nextInt((10-1)+1)+1;
+        int operador= random.nextInt(2);
+
+
+        if(operador==1){
+
+        String pregunta = numeroUno+"+"+ numeroDos;
+        int respuesta = numeroUno+numeroDos;
+        preguntas.add( new Pregunta(numeroUno+" + "+ numeroDos,""+respuesta));
+
+        }
+
+        else{
+
+            String pregunta= numeroUno+"x"+numeroDos;
+            int respuesta = numeroUno*numeroDos;
+            preguntas.add( new Pregunta(numeroUno+" X "+ numeroDos,""+respuesta));
+
+        }
+
+
+
+        }
 
     }
     @Override
